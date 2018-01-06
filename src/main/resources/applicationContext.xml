@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--定义一个userDao实例-->
+    <bean id="userDao" class="com.laulee.logic.daoimpl.UserDaoImpl"/>
+
+
+    <!--定义一个userService实例-->
+    <bean id="userService" class="com.laulee.logic.serviceimpl.UserServiceImpl">
+        <!--通过setter方法方式将userDao属性注入-->
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="userServiceIoc" class="com.laulee.logic.serviceimpl.UserServiceImplIoc" init-method="init">
+        <!--&lt;!&ndash;<property name="userDao" ref="userDao"/>&ndash;&gt;setter方式-->
+        <constructor-arg index="0" ref="userDao"/><!--构造函数注入-->
+
+        <lookup-method name="getUserDao" bean="userDao"/>
+    </bean>
+</beans>
